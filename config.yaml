@@ -1,0 +1,29 @@
+name: "Blocky"
+description: "Blocky DNS Server"
+url: "https://github.com/zenobi-us/homeassistant-blocky"
+version: "0.0.1"
+slug: "blocky"
+init: false
+arch:
+  - amd64
+panel_icon: mdi:shield-check
+startup: services
+auth_api: true
+host_network: true
+hassio_role: manager
+map:
+  - type: ssl
+  - type: addon_config
+    read_only: false
+    path: /addon_config
+ports:
+  4000/tcp: 4000
+  53/udp: 53
+  53/tcp: 53
+ports_description:
+  53/udp: DNS server port
+  4000/tcp: Prometheus stats (if enabled)
+options:
+  timezone: Country/City (e.g., Europe/Berlin)
+schema:
+  timezone: "str?"

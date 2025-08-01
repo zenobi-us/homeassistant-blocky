@@ -1,0 +1,21 @@
+#!/command/with-contenv bashio
+# https://github.com/hassio-addons/bashio
+
+default_config_dir="/etc/blocky/"
+config_dir="${default_config_dir}"
+
+# if /addon_config/ exists use it as the config directory
+if [ -d /addon_config/ ]; then
+    config_dir="/addon_config/"
+    bashio::log.info "[Blocky] using /addon_config"
+fi
+
+# if /addon_config/ exists, and it's empty, copy "${config_dir}*" to "/addon_config/"
+if [ -d /addon_config/ ] && [ -z "$(ls -A /addon_config/)" ]; then
+    bashio::log.info "[Blocky] /addon_config is empty, copying example config"
+    cp -r ${default_config_dir}* /addon_config/
+fi
+
+bashio::log.info "[Blocky] config_dir: ${config_dir}"
+
+/app/blocky --config ${config_dir}
